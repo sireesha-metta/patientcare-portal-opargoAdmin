@@ -41,6 +41,13 @@ function attachAuth(instance) {
         config.headers[key] = value;
       }
     });
+    if (config.data instanceof FormData) {
+      if (typeof config.headers.delete === "function") {
+        config.headers.delete("Content-Type");
+      } else {
+        delete config.headers["Content-Type"];
+      }
+    }
     return config;
   });
   return instance;
@@ -59,6 +66,15 @@ export const opargoAdminClient = attachAuth(
 export const userServicesClient = attachAuth(
   axios.create({
     baseURL: `${OPARGOADMIN_API_BASE_URL}/userServices`,
+    timeout: 30000,
+    headers: { "Content-Type": "application/json" },
+    validateStatus: acceptNoContent,
+  }),
+);
+
+export const optimizerClient = attachAuth(
+  axios.create({
+    baseURL: OPARGOADMIN_API_BASE_URL,
     timeout: 30000,
     headers: { "Content-Type": "application/json" },
     validateStatus: acceptNoContent,

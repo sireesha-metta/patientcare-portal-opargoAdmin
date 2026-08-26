@@ -1,8 +1,8 @@
 import { useState } from "react";
 import SharedUiProvider from "patientcare-portal-sharedui/SharedUiProvider";
 import { sharedUiService } from "patientcare-portal-sharedui/sharedUiService";
-import { ModuleLayout } from "patientcare-portal-sharedui/SideNav";
-import { OPARGOADMIN_NAV_ITEMS } from "./components/sidebar/AppSidebar";
+import OpargoAdminLeft from "./components/opargoAdminLeft/OpargoAdminLeft";
+import { getOpargoAdminMenu, setOpargoAdminMenu } from "./config/opargoAdminNav";
 import { MENU, OPARGOADMIN_API_BASE_URL } from "./config/opargoAdminConfig";
 import PracticeManagement from "./pages/practiceManagement/PracticeManagement";
 import PracticeGroups from "./pages/practiceGroups/PracticeGroups";
@@ -35,7 +35,12 @@ function readSession() {
 }
 
 function AppContent() {
-  const [activePage, setActivePage] = useState(MENU.PRACTICE);
+  const [activePage, setActivePage] = useState(getOpargoAdminMenu);
+
+  const handleSelect = (id) => {
+    setOpargoAdminMenu(id);
+    setActivePage(id);
+  };
 
   const renderContent = () => {
     switch (activePage) {
@@ -52,14 +57,10 @@ function AppContent() {
   return (
     <>
       <div className="hidden md:block">
-        <ModuleLayout
-          title="Opargo Admin"
-          items={OPARGOADMIN_NAV_ITEMS}
-          activeId={activePage}
-          onSelect={setActivePage}
-        >
-          {renderContent()}
-        </ModuleLayout>
+        <div className="pcp-module">
+          <OpargoAdminLeft activePage={activePage} onSelect={handleSelect} />
+          <div className="pcp-module__content">{renderContent()}</div>
+        </div>
       </div>
       <div className="px-6 py-16 text-center md:hidden">
         <h2 className="text-xl font-semibold text-slate-900">Opargo Admin Unavailable</h2>
