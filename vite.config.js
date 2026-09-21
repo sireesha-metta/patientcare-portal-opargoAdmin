@@ -2,12 +2,7 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { federation } from "@module-federation/vite";
 
-/**
- * Opargo Admin MFE (port 3005)
- * Consumes sharedUi as a file: library — does NOT duplicate SharedUI components/services.
- *
- * Shell remotes.opargoAdmin → http://localhost:3005/remoteEntry.js → exposes ./OpargoAdminApp
- */
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, ".", "");
   const OPARGO_PROXY_TARGET =

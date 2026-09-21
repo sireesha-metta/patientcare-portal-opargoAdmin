@@ -17,3 +17,8 @@ export function getResponseMessage(data) {
   if (typeof data.response === "string") return data.response;
   return data.response?.message || data.message || "";
 }
+
+export function toTitleCase(value) {
+  if (value == null || value === "") return "";
+  return String(value).replace(/\b\w/g, (char) => char.toUpperCase());
+}
