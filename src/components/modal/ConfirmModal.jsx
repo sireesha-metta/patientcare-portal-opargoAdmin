@@ -1,17 +1,33 @@
-import { AlertTriangle } from "lucide-react";
 import CustomModal from "./CustomModal";
 
-const ConfirmModal = ({ open, onClose, onConfirm, title = "Confirm Action", message = "Are you sure you want to continue?",
-  confirmText = "Confirm", cancelText = "Cancel", }) => {
+const ConfirmModal = ({
+  open,
+  onClose,
+  onConfirm,
+  title = "Confirm Action",
+  message = "Are you sure you want to continue?",
+  confirmText = "Delete",
+  cancelText = "Cancel",
+  loading = false,
+}) => {
   return (
-    <CustomModal open={open} onClose={onClose} title={title} cancelText={cancelText} actionText={confirmText}
-      onAction={onConfirm} maxWidth="sm"  >
-      <div className="flex flex-col items-center py-2 text-center">
-        <div className="mb-4 flex h-8 w-14 items-center justify-center rounded-full bg-red-100">
-          <AlertTriangle size={20} className="text-red-600" />
-        </div>
-        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        <p className="text-sm text-gray-600">{message}</p>
+    <CustomModal
+      open={open}
+      onClose={onClose}
+      title={title}
+      cancelText={cancelText}
+      actionText={loading ? "Deleting..." : confirmText}
+      onAction={onConfirm}
+      actionLoading={loading}
+      maxWidth="sm"
+      headerBg="blue"
+      cancelVariant="blue"
+      actionVariant="danger"
+    >
+      <div className="py-2">
+        <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
+          {message}
+        </p>
       </div>
     </CustomModal>
   );
